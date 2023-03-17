@@ -1,0 +1,36 @@
+{
+  "name": "tracking-ts",
+  "version": "0.1.0",
+  "description": "Tracking.ts modular package - Typescript version",
+  "main": "dist/tracking.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-ts": "webpack --mode development --progress --watch",
+    "build-ts": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalwalt/tracking-ts.git"
+  },
+  "keywords": [
+    "AR.js",
+    "Three.js",
+    "ARToolkit",
+    "typescript"
+  ],
+  "author": "Walter Perdan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalwalt/tracking-ts/issues"
+  },
+  "homepage": "https://github.com/kalwalt/tracking-ts#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {}
+}
