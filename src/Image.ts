@@ -147,7 +147,7 @@ export class Image {
      *  is true and [p1, p2, p3, ...] if fillRGBA is false).
      * @static
      */
-    grayscale(pixels: Uint8ClampedArray, width: number, height: number, fillRGBA: boolean): Uint8ClampedArray {
+    static grayscale(pixels: Uint8ClampedArray, width: number, height: number, fillRGBA: boolean): Uint8ClampedArray {
         var gray = new Uint8ClampedArray(fillRGBA ? pixels.length : pixels.length >> 2);
         var p = 0;
         var w = 0;
@@ -300,7 +300,7 @@ export class Image {
      * @return {array} The edge pixels in a linear [r,g,b,a,...] array.
      */
     sobel(pixels: Uint8ClampedArray, width: number, height: number): Float32Array {
-        var _pixels: Float32Array = <Float32Array><unknown>this.grayscale(pixels, width, height, true);
+        var _pixels: Float32Array = <Float32Array><unknown>Image.grayscale(pixels, width, height, true);
         var output = new Float32Array(width * height * 4);
         var sobelSignVector = new Float32Array([-1, 0, 1]);
         var sobelScaleVector = new Float32Array([1, 2, 1]);
