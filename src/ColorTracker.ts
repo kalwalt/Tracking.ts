@@ -43,7 +43,7 @@ export class ColorTracker extends Tracker {
      * @private
      * @static
      */
-    private static neighbours_: any;
+    private static neighbours_:  Map<number, Int32Array> = new Map<number, Int32Array>();
 
     /**
      * Registers a color as known color.
@@ -177,8 +177,8 @@ export class ColorTracker extends Tracker {
   * @private
   */
     private getNeighboursForWidth_(width: number) {
-        if (ColorTracker.neighbours_[width]) {
-            return ColorTracker.neighbours_[width];
+        if (ColorTracker.neighbours_.get(width)) {
+            return ColorTracker.neighbours_.get(width);
         }
 
         var neighbours = new Int32Array(8);
@@ -192,7 +192,7 @@ export class ColorTracker extends Tracker {
         neighbours[6] = -4;
         neighbours[7] = -width * 4 - 4;
 
-        ColorTracker.neighbours_[width] = neighbours;
+        ColorTracker.neighbours_.set(width, neighbours);
 
         return neighbours;
     };
