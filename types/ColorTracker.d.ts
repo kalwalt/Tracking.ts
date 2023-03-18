@@ -4,7 +4,7 @@ export declare class ColorTracker extends Tracker {
     private static knownColors_;
     private static neighbours_;
     static registerColor(name: string, fn: (r: number, g: number, b: number) => boolean): any;
-    static getColor(name: string): any;
+    static getColor(name: string): Function;
     colors: Array<string>;
     minDimension: number;
     maxDimension: number;
@@ -22,4 +22,5 @@ export declare class ColorTracker extends Tracker {
     setMinGroupSize(minGroupSize: number): void;
     track(pixels: Uint8ClampedArray, width: number, height: number): void;
     private trackColor_;
+    private initColors;
 }

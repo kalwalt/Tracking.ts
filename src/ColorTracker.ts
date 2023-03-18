@@ -12,6 +12,8 @@ export class ColorTracker extends Tracker {
     constructor(opt_colors: string | Array<string>) {
         super()
 
+       this.initColors();
+
         if (typeof opt_colors === 'string') {
             opt_colors = [opt_colors];
         }
@@ -25,55 +27,15 @@ export class ColorTracker extends Tracker {
             this.setColors(opt_colors);
         }
 
-         // Default colors
-  //===================
-
-  ColorTracker.registerColor('cyan', (r: number, g: number, b: number) => {
-    var thresholdGreen = 50,
-        thresholdBlue = 70,
-        dx = r - 0,
-        dy = g - 255,
-        dz = b - 255;
-
-    if ((g - r) >= thresholdGreen && (b - r) >= thresholdBlue) {
-        return true;
-    }
-    return dx * dx + dy * dy + dz * dz < 6400;
-});
-
-ColorTracker.registerColor('magenta', function (r: number, g: number, b: number) {
-    var threshold = 50,
-        dx = r - 255,
-        dy = g - 0,
-        dz = b - 255;
-
-    if ((r - g) >= threshold && (b - g) >= threshold) {
-        return true;
-    }
-    return dx * dx + dy * dy + dz * dz < 19600;
-});
-
-ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) {
-    var threshold = 50,
-        dx = r - 255,
-        dy = g - 255,
-        dz = b - 0;
-
-    if ((r - b) >= threshold && (g - b) >= threshold) {
-        return true;
-    }
-    return dx * dx + dy * dy + dz * dz < 10000;
-});
-
     }
 
     /**
-   * Holds the known colors.
-   * @type {Object.<string, function>}
-   * @private
-   * @static
-   */
-    private static knownColors_: any;
+     * Holds the known colors.
+     * @type {Object.<string, function>}
+     * @private
+     * @static
+     */
+    private static knownColors_: Map<string, Function> = new Map<string, Function>();
 
     /**
      * Caches coordinates values of the neighbours surrounding a pixel.
@@ -91,7 +53,7 @@ ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) 
      * @static
      */
     static registerColor(name: string, fn: (r: number, g: number, b: number) => boolean): any {
-        ColorTracker.knownColors_[name] = fn;
+        ColorTracker.knownColors_.set(name, fn);
     };
 
     /**
@@ -101,8 +63,8 @@ ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) 
    * @return {function} The known color test function.
    * @static
    */
-    static getColor (name: string) {
-        return ColorTracker.knownColors_[name];
+    static getColor(name: string) {
+        return ColorTracker.knownColors_.get(name);
     };
 
     /**
@@ -346,7 +308,7 @@ ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) 
    * @private
    */
     private trackColor_(pixels: Uint8ClampedArray, width: number, height: number, color: string): any {
-        var colorFn = ColorTracker.knownColors_[color];
+        var colorFn = ColorTracker.knownColors_.get(color);
         var currGroup = new Int32Array(pixels.length >> 2);
         var currGroupSize;
         var currI;
@@ -390,7 +352,7 @@ ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) 
                     currI = queue[queuePosition--];
                     currW = queue[queuePosition--];
 
-                    if (colorFn(pixels[currW], pixels[currW + 1], pixels[currW + 2], pixels[currW + 3], currW, currI, currJ)) {
+                    if (colorFn((pixels[currW], pixels[currW + 1], pixels[currW + 2], pixels[currW + 3], currW), currI, currJ)) {
                         currGroup[currGroupSize++] = currJ;
                         currGroup[currGroupSize++] = currI;
 
@@ -423,46 +385,48 @@ ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) 
     };
 
 
-  // Default colors
-  //===================
-/*  ColorTracker.registerColor('cyan', (r: number, g: number, b: number) => {
-    var thresholdGreen = 50,
-        thresholdBlue = 70,
-        dx = r - 0,
-        dy = g - 255,
-        dz = b - 255;
+    // Default colors
+    //===================
 
-    if ((g - r) >= thresholdGreen && (b - r) >= thresholdBlue) {
-        return true;
+    private initColors(): void {
+        ColorTracker.registerColor('cyan', (r: number, g: number, b: number) => {
+            var thresholdGreen = 50,
+                thresholdBlue = 70,
+                dx = r - 0,
+                dy = g - 255,
+                dz = b - 255;
+
+            if ((g - r) >= thresholdGreen && (b - r) >= thresholdBlue) {
+                return true;
+            }
+            return dx * dx + dy * dy + dz * dz < 6400;
+        });
+
+        ColorTracker.registerColor('magenta', function (r: number, g: number, b: number) {
+            var threshold = 50,
+                dx = r - 255,
+                dy = g - 0,
+                dz = b - 255;
+
+            if ((r - g) >= threshold && (b - g) >= threshold) {
+                return true;
+            }
+            return dx * dx + dy * dy + dz * dz < 19600;
+        });
+
+        ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) {
+            var threshold = 50,
+                dx = r - 255,
+                dy = g - 255,
+                dz = b - 0;
+
+            if ((r - b) >= threshold && (g - b) >= threshold) {
+                return true;
+            }
+            return dx * dx + dy * dy + dz * dz < 10000;
+        });
     }
-    return dx * dx + dy * dy + dz * dz < 6400;
-});
 
-ColorTracker.registerColor('magenta', function (r: number, g: number, b: number) {
-    var threshold = 50,
-        dx = r - 255,
-        dy = g - 0,
-        dz = b - 255;
-
-    if ((r - g) >= threshold && (b - g) >= threshold) {
-        return true;
-    }
-    return dx * dx + dy * dy + dz * dz < 19600;
-});
-
-ColorTracker.registerColor('yellow', function (r: number, g: number, b: number) {
-    var threshold = 50,
-        dx = r - 255,
-        dy = g - 255,
-        dz = b - 0;
-
-    if ((r - b) >= threshold && (g - b) >= threshold) {
-        return true;
-    }
-    return dx * dx + dy * dy + dz * dz < 10000;
-});
-
-*/
 
 
 
