@@ -8,7 +8,6 @@ export declare class TrackerTask extends EventEmitter {
     private inRunning;
     private setRunning;
     setTracker(tracker: Tracker): void;
-    private reemitTrackEvent_;
     run(): this;
     stop(): this;
 }

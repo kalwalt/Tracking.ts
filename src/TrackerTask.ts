@@ -59,27 +59,23 @@ export class TrackerTask extends EventEmitter {
         this.tracker_ = tracker;
     };
 
-    private reemitTrackEvent_(event: any) {
-        this.emit('track', event);
-    };
-
     /**
      * Emits a `run` event on the tracker task for the implementers to run any
      * child action, e.g. `requestAnimationFrame`.
      * @return {object} Returns itself, so calls can be chained.
      */
     run() {
-        //var self = this;
+        var self = this;
 
         if (this.inRunning()) {
             return;
         }
 
         this.setRunning(true);
-        /*this.reemitTrackEvent_ = function (event) {
+        const reemitTrackEvent_ = function (event: any) {
             self.emit('track', event);
-        };*/
-        this.tracker_.on('track', this.reemitTrackEvent_);
+        };
+        this.tracker_.on('track', reemitTrackEvent_);
         this.emit('run');
         return this;
     };
@@ -93,10 +89,14 @@ export class TrackerTask extends EventEmitter {
         if (!this.inRunning()) {
             return;
         }
+        var self = this;
 
         this.setRunning(false);
         this.emit('stop');
-        this.tracker_.removeListener('track', this.reemitTrackEvent_);
+        const reemitTrackEvent_ = function (event: any) {
+            self.emit('track', event);
+        };
+        this.tracker_.removeListener('track', reemitTrackEvent_);
         return this;
     };
 }

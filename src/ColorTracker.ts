@@ -12,7 +12,7 @@ export class ColorTracker extends Tracker {
     constructor(opt_colors: string | Array<string>) {
         super()
 
-       this.initColors();
+        this.initColors();
 
         if (typeof opt_colors === 'string') {
             opt_colors = [opt_colors];
@@ -43,7 +43,7 @@ export class ColorTracker extends Tracker {
      * @private
      * @static
      */
-    private static neighbours_:  Map<number, Int32Array> = new Map<number, Int32Array>();
+    private static neighbours_: Map<number, Int32Array> = new Map<number, Int32Array>();
 
     /**
      * Registers a color as known color.
@@ -426,8 +426,4 @@ export class ColorTracker extends Tracker {
             return dx * dx + dy * dy + dz * dz < 10000;
         });
     }
-
-
-
-
 }
