@@ -4,12 +4,17 @@ import { Image as _Image } from './Image';
 import { Tracker } from './Tracker';
 import { TrackerTask } from './TrackerTask';
 import { ColorTracker as _ColorTracker } from './ColorTracker';
+import { Brief as _Brief } from './features/Brief';
+import { Fast as _Fast } from './features/Fast';
 export default class Tracking {
     static EventEmitter: typeof _EventEmitter;
     static Canvas: typeof _Canvas;
     static Image: typeof _Image;
     static ColorTracker: typeof _ColorTracker;
+    static Brief: typeof _Brief;
+    static Fast: typeof _Fast;
     static grayscale: typeof _Image.grayscale;
+    static blur: typeof _Image.blur;
     constructor();
     initUserMedia_(element: HTMLVideoElement, opt_options?: any): void;
     isNode(o: any): boolean;
@@ -24,4 +29,6 @@ export default class Tracking {
     Canvas: typeof _Canvas;
     Image: typeof _Image;
     ColorTracker: typeof _ColorTracker;
+    Brief: typeof _Brief;
+    Fast: typeof _Fast;
 }

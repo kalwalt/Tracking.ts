@@ -15,7 +15,7 @@ export class Image {
      * @param {number} diameter Gaussian blur diameter, must be greater than 1.
      * @return {array} The edge pixels in a linear [r,g,b,a,...] array.
     */
-    blur(pixels: Float32Array, width: number, height: number, diameter: number) {
+    static blur(pixels: Float32Array, width: number, height: number, diameter: number) {
         diameter = Math.abs(diameter);
         if (diameter <= 1) {
             throw new Error('Diameter should be greater than 1.');
@@ -38,7 +38,7 @@ export class Image {
         for (var j = 0; j < weights.length; j++) {
             weights[j] /= wsum;
         }
-        return this.separableConvolve(pixels, width, height, weights, weights, false);
+        return Image.separableConvolve(pixels, width, height, weights, weights, false);
     };
 
     /**
@@ -61,7 +61,7 @@ export class Image {
      *     specified compute sobel filtering will be skipped.
      * @static
      */
-    computeIntegralImage(pixels: Uint8ClampedArray, width: number, height: number, opt_integralImage: any, opt_integralImageSquare: any, opt_tiltedIntegralImage: any, opt_integralImageSobel: any) {
+    static computeIntegralImage(pixels: Uint8ClampedArray, width: number, height: number, opt_integralImage: any, opt_integralImageSquare: any, opt_tiltedIntegralImage: any, opt_integralImageSobel: any) {
         if (arguments.length < 4) {
             throw new Error('You should specify at least one output array in the order: sum, square, tilted, sobel.');
         }
@@ -107,7 +107,7 @@ export class Image {
      * @static
      * @private
      */
-    private computePixelValueRSAT_(RSAT: number[], width: number, i: number, j: number, pixel: number, pixelAbove: number) {
+    private static computePixelValueRSAT_(RSAT: number[], width: number, i: number, j: number, pixel: number, pixelAbove: number) {
         var w = i * width + j;
         RSAT[w] = (RSAT[w - width - 1] || 0) + (RSAT[w - width + 1] || 0) - (RSAT[w - width - width] || 0) + pixel + pixelAbove;
     };
@@ -127,7 +127,7 @@ export class Image {
      * @static
      * @private
      */
-    computePixelValueSAT_(SAT: number[], width: number, i: number, j: number, pixel: number) {
+    private static computePixelValueSAT_(SAT: number[], width: number, i: number, j: number, pixel: number) {
         var w = i * width + j;
         SAT[w] = (SAT[w - width] || 0) + (SAT[w - 1] || 0) + pixel - (SAT[w - width - 1] || 0);
     };
@@ -183,7 +183,7 @@ export class Image {
      * @param {number} opaque
      * @return {array} The convoluted pixels in a linear [r,g,b,a,...] array.
      */
-    horizontalConvolve(pixels: Float32Array, width: number, height: number, weightsVector: Float32Array, opaque: boolean): Float32Array {
+    static horizontalConvolve(pixels: Float32Array, width: number, height: number, weightsVector: Float32Array, opaque: boolean): Float32Array {
         var side = weightsVector.length;
         var halfSide = Math.floor(side / 2);
         var output = new Float32Array(width * height * 4);
@@ -232,7 +232,7 @@ export class Image {
      * @param {number} opaque
      * @return {array} The convoluted pixels in a linear [r,g,b,a,...] array.
      */
-    verticalConvolve(pixels: Float32Array, width: number, height: number, weightsVector: Float32Array, opaque: boolean): Float32Array {
+    static verticalConvolve(pixels: Float32Array, width: number, height: number, weightsVector: Float32Array, opaque: boolean): Float32Array {
         var side = weightsVector.length;
         var halfSide = Math.floor(side / 2);
         var output = new Float32Array(width * height * 4);
@@ -282,7 +282,7 @@ export class Image {
      * @param {number} opaque
      * @return {array} The convoluted pixels in a linear [r,g,b,a,...] array.
      */
-    separableConvolve(pixels: Float32Array, width: number, height: number, horizWeights: Float32Array, vertWeights: Float32Array, opaque?: boolean): Float32Array {
+    static separableConvolve(pixels: Float32Array, width: number, height: number, horizWeights: Float32Array, vertWeights: Float32Array, opaque?: boolean): Float32Array {
         var vertical = this.verticalConvolve(pixels, width, height, vertWeights, opaque);
         return this.horizontalConvolve(vertical, width, height, horizWeights, opaque);
     };
@@ -299,7 +299,7 @@ export class Image {
      * @param {number} height The image height.
      * @return {array} The edge pixels in a linear [r,g,b,a,...] array.
      */
-    sobel(pixels: Uint8ClampedArray, width: number, height: number): Float32Array {
+    static sobel(pixels: Uint8ClampedArray, width: number, height: number): Float32Array {
         var _pixels: Float32Array = <Float32Array><unknown>Image.grayscale(pixels, width, height, true);
         var output = new Float32Array(width * height * 4);
         var sobelSignVector = new Float32Array([-1, 0, 1]);
@@ -328,7 +328,7 @@ export class Image {
      * @param {number} height The image height.
      * @return {array} The equalized grayscale pixels in a linear array.
      */
-    equalizeHist(pixels: Uint8ClampedArray, width: number, height: number) {
+    static equalizeHist(pixels: Uint8ClampedArray, width: number, height: number) {
         var equalized = new Uint8ClampedArray(pixels.length);
 
         var histogram = new Array(256);
