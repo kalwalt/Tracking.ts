@@ -57,12 +57,12 @@ export class ColorTracker extends Tracker {
     };
 
     /**
-   * Gets the known color function that is able to test whether an (r,g,b) is
-   * the desired color.
-   * @param {string} name The color name.
-   * @return {function} The known color test function.
-   * @static
-   */
+     * Gets the known color function that is able to test whether an (r,g,b) is
+     * the desired color.
+     * @param {string} name The color name.
+     * @return {function} The known color test function.
+     * @static
+     */
     static getColor(name: string) {
         return ColorTracker.knownColors_.get(name);
     };
@@ -75,10 +75,10 @@ export class ColorTracker extends Tracker {
     colors: Array<string> = ['magenta'];
 
     /**
-   * Holds the minimum dimension to classify a rectangle.
-   * @default 20
-   * @type {number}
-   */
+     * Holds the minimum dimension to classify a rectangle.
+     * @default 20
+     * @type {number}
+     */
     minDimension = 20;
 
     /**
@@ -96,15 +96,15 @@ export class ColorTracker extends Tracker {
     minGroupSize = 30;
 
     /**
-   * Calculates the central coordinate from the cloud points. The cloud points
-   * are all points that matches the desired color.
-   * @param {Array.<number>} cloud Major row order array containing all the
-   *     points from the desired color, e.g. [x1, y1, c2, y2, ...].
-   * @param {number} total Total numbers of pixels of the desired color.
-   * @return {object} Object containing the x, y and estimated z coordinate of
-   *     the blog extracted from the cloud points.
-   * @private
-   */
+     * Calculates the central coordinate from the cloud points. The cloud points
+     * are all points that matches the desired color.
+     * @param {Array.<number>} cloud Major row order array containing all the
+     *     points from the desired color, e.g. [x1, y1, c2, y2, ...].
+     * @param {number} total Total numbers of pixels of the desired color.
+     * @return {object} Object containing the x, y and estimated z coordinate of
+     *     the blog extracted from the cloud points.
+     * @private
+     */
     private calculateDimensions_(cloud: any, total: number): object {
         var maxx = -1;
         var maxy = -1;
@@ -146,9 +146,9 @@ export class ColorTracker extends Tracker {
     };
 
     /**
-   * Gets the minimum dimension to classify a rectangle.
-   * @return {number}
-   */
+     * Gets the minimum dimension to classify a rectangle.
+     * @return {number}
+     */
     getMinDimension(): number {
         return this.minDimension;
     };
@@ -170,12 +170,12 @@ export class ColorTracker extends Tracker {
     };
 
     /**
-  * Gets the eight offset values of the neighbours surrounding a pixel.
-  * @param {number} width The image width.
-  * @return {array} Array with the eight offset values of the neighbours
-  *     surrounding a pixel.
-  * @private
-  */
+     * Gets the eight offset values of the neighbours surrounding a pixel.
+     * @param {number} width The image width.
+     * @return {array} Array with the eight offset values of the neighbours
+     *     surrounding a pixel.
+     * @private
+     */
     private getNeighboursForWidth_(width: number) {
         if (ColorTracker.neighbours_.get(width)) {
             return ColorTracker.neighbours_.get(width);
@@ -272,15 +272,15 @@ export class ColorTracker extends Tracker {
     };
 
     /**
-   * Tracks the `Video` frames. This method is called for each video frame in
-   * order to emit `track` event.
-   * @param {Uint8ClampedArray} pixels The pixels data to track.
-   * @param {number} width The pixels canvas width.
-   * @param {number} height The pixels canvas height.
-   */
+     * Tracks the `Video` frames. This method is called for each video frame in
+     * order to emit `track` event.
+     * @param {Uint8ClampedArray} pixels The pixels data to track.
+     * @param {number} width The pixels canvas width.
+     * @param {number} height The pixels canvas height.
+     */
     track(pixels: Uint8ClampedArray, width: number, height: number) {
         var self = this;
-        var colors = this.getColors();
+        var colors = this.getColors();      
 
         if (!colors) {
             throw new Error('Colors not specified, try `new tracking.ColorTracker("magenta")`.');
@@ -289,7 +289,7 @@ export class ColorTracker extends Tracker {
         var results: any = [];
 
         colors.forEach(function (color) {
-            results = results.concat(self.trackColor_(pixels, width, height, color));
+            results = results.concat(self.trackColor_(pixels, width, height, color));            
         });
 
         this.emit('track', {
@@ -352,7 +352,7 @@ export class ColorTracker extends Tracker {
                     currI = queue[queuePosition--];
                     currW = queue[queuePosition--];
 
-                    if (colorFn((pixels[currW], pixels[currW + 1], pixels[currW + 2], pixels[currW + 3], currW), currI, currJ)) {
+                    if (colorFn(pixels[currW], pixels[currW + 1], pixels[currW + 2], pixels[currW + 3], currW, currI, currJ)) {
                         currGroup[currGroupSize++] = currJ;
                         currGroup[currGroupSize++] = currI;
 
