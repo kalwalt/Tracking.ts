@@ -1,5 +1,5 @@
 {
-  "name": "tracking-ts",
+  "name": "tracking.ts",
   "version": "0.1.0",
   "description": "Tracking.ts modular package - Typescript version",
   "main": "dist/tracking.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kalwalt/tracking-ts.git"
+    "url": "git+https://github.com/kalwalt/tracking.ts.git"
   },
   "keywords": [
     "AR.js",
@@ -20,11 +20,11 @@
     "typescript"
   ],
   "author": "Walter Perdan",
-  "license": "MIT",
+  "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/kalwalt/tracking-ts/issues"
+    "url": "https://github.com/kalwalt/tracking.ts/issues"
   },
-  "homepage": "https://github.com/kalwalt/tracking-ts#readme",
+  "homepage": "https://github.com/kalwalt/tracking.ts#readme",
   "devDependencies": {
     "@types/node": "^18.15.3",
     "ts-loader": "^9.4.2",
