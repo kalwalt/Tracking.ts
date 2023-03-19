@@ -38,7 +38,7 @@ export class Fast {
      * @private
      * @static
      */
-    private static circles_: any;
+    private static circles_: Map<number, Int32Array> = new Map<number, Int32Array>();
 
     /**
      * Finds corners coordinates on the graysacaled image.
@@ -220,9 +220,9 @@ export class Fast {
      *     surrounding pixel.
      * @private
      */
-    private static getCircleOffsets_(width: number): Int32Array {
-        if (Fast.circles_[width]) {
-            return Fast.circles_[width];
+    private static getCircleOffsets_(width: number): Int32Array {        
+        if (Fast.circles_.get(width)) {
+            return Fast.circles_.get(width);
         }
 
         var circle = new Int32Array(16);
@@ -244,7 +244,7 @@ export class Fast {
         circle[14] = circle[13] - width + 1;
         circle[15] = circle[14] - width + 1;
 
-        Fast.circles_[width] = circle;
+        Fast.circles_.set(width, circle);
         return circle;
     };
 }
