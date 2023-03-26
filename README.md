@@ -14,3 +14,5 @@ List of implemented classes:
 - Tracker
 - TrackerTask
 - Tracking
+- Brief
+- Fast
