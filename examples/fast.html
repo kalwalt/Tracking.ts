@@ -1,31 +1,35 @@
 <!doctype html>
 
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Tracking.ts - feature detection</title>
   <link rel="stylesheet" href="assets/demo.css">
 
   <script src="../dist/tracking.js"></script>
-   <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script>
+  <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script>
 
   <style>
-  .demo-container {
-    background: #131112;
-  }
-  #image {
-    position: absolute;
-    left: -1000px;
-    top: -1000px;
-  }
-  #canvas {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: -200px 0 0 -200px;
-  }
+    .demo-container {
+      background: #131112;
+    }
+
+    #image {
+      position: absolute;
+      left: -1000px;
+      top: -1000px;
+    }
+
+    #canvas {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin: -200px 0 0 -200px;
+    }
   </style>
 </head>
+
 <body>
   <div class="demo-title">
     <p><a href="http://www.webarkit.com" target="_parent">Tracking.ts</a> － detect feature points on a image</p>
@@ -39,7 +43,7 @@
   </div>
 
   <script>
-    window.onload = function() {
+    window.onload = function () {
       var width = 400;
       var height = 400;
       var canvas = document.getElementById('canvas');
@@ -51,7 +55,7 @@
 
       const tracking = new Tracking.Tracking();
 
-      var doFindFeatures = function() {
+      var doFindFeatures = function () {
         tracking.Fast.THRESHOLD = window.fastThreshold;
         context.drawImage(image, 0, 0, width, height);
 
@@ -72,4 +76,5 @@
     }
   </script>
 </body>
+
 </html>
